@@ -21,6 +21,11 @@ const plugin = {
       const data = request.payload || request.query || {};
       const { query, variables } = data;
 
+      if (request.pre) {
+        // Allow passing context in pre.
+        context = Object.assign(context, request.pre.context);
+      }
+
       if (accepts(request, 'html') && graphiql) {
         return reply(renderGraphiQL({ query, variables }));
       }
